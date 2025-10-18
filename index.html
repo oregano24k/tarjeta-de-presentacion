@@ -59,10 +59,10 @@
             </button>
             
             <!-- Sección de Tiendas (inicialmente oculta) --><div id="tiendasSection" class="hidden mt-3 space-y-2 text-left">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="flex items-center w-full bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition">
+                <button id="androidConductoresBtn" class="flex items-center w-full bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition text-left">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.2,6.2C15.6,5.8 16,5.4 16.4,5L15,3.6L14.9,3.7C14.5,4.1 14.1,4.5 13.8,4.8C12.9,5.8 11.1,5.8 10.2,4.8L9,3.6L7.6,5C8,5.4 8.4,5.8 8.8,6.2C9.5,6.8 9.5,7.9 8.8,8.6L8.6,8.8C7.9,9.5 6.8,9.5 6.2,8.8C5.5,8.1 5.5,7 6.2,6.3L6.4,6.2C6.5,6 6.8,5.8 7,5.7L7.1,5.6L5.7,4.2L5.6,4.3C4.2,5.7 4.2,7.9 5.6,9.4L6,9.7L5.7,10C4.2,11.4 4.2,13.6 5.6,15L7,16.4L7,15.6V12H17V15.6L17,16.4L18.4,15C19.8,13.6 19.8,11.4 18.4,10L18,9.7L18.4,9.4C19.8,7.9 19.8,5.7 18.4,4.3L18.2,4.2L16.8,5.6L17,5.7C17.2,5.8 17.5,6 17.6,6.2L17.8,6.3C18.5,7 18.5,8.1 17.8,8.8C17.2,9.5 16.1,9.5 15.4,8.8L15.2,8.6C14.5,7.9 14.5,6.8 15.2,6.2M10.2,12.5V11.5H9.2V12.5H10.2M14.8,12.5V11.5H13.8V12.5H14.8Z"></path></svg>
                     Android Conductores
-                </a>
+                </button>
                 <a href="#" target="_blank" rel="noopener noreferrer" class="flex items-center w-full bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition">
                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.2,6.2C15.6,5.8 16,5.4 16.4,5L15,3.6L14.9,3.7C14.5,4.1 14.1,4.5 13.8,4.8C12.9,5.8 11.1,5.8 10.2,4.8L9,3.6L7.6,5C8,5.4 8.4,5.8 8.8,6.2C9.5,6.8 9.5,7.9 8.8,8.6L8.6,8.8C7.9,9.5 6.8,9.5 6.2,8.8C5.5,8.1 5.5,7 6.2,6.3L6.4,6.2C6.5,6 6.8,5.8 7,5.7L7.1,5.6L5.7,4.2L5.6,4.3C4.2,5.7 4.2,7.9 5.6,9.4L6,9.7L5.7,10C4.2,11.4 4.2,13.6 5.6,15L7,16.4L7,15.6V12H17V15.6L17,16.4L18.4,15C19.8,13.6 19.8,11.4 18.4,10L18,9.7L18.4,9.4C19.8,7.9 19.8,5.7 18.4,4.3L18.2,4.2L16.8,5.6L17,5.7C17.2,5.8 17.5,6 17.6,6.2L17.8,6.3C18.5,7 18.5,8.1 17.8,8.8C17.2,9.5 16.1,9.5 15.4,8.8L15.2,8.6C14.5,7.9 14.5,6.8 15.2,6.2M10.2,12.5V11.5H9.2V12.5H10.2M14.8,12.5V11.5H13.8V12.5H14.8Z"></path></svg>
                     Android Clientes
@@ -112,6 +112,17 @@
             <div id="qrcode" class="flex justify-center mb-4"></div>
             <p class="text-gray-600 text-sm">Apunta la cámara de tu teléfono a este código para abrir mi tarjeta.</p>
             <button id="closeModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal para el QR de Android Conductores --><div id="androidQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
+            <h3 class="text-xl font-bold mb-4">QR Android Conductores</h3>
+            <div id="androidQrcode" class="flex justify-center mb-4"></div>
+            <p class="text-gray-600 text-sm">Escanea para descargar la app de conductor.</p>
+            <button id="closeAndroidModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
@@ -210,6 +221,43 @@ TEL;TYPE=WORK,VOICE:${contactInfo.phone}`;
         qrModal.addEventListener('click', (event) => {
             if (event.target === qrModal) {
                 closeModal();
+            }
+        });
+
+        // Lógica para el modal del QR de Android Conductores
+        const androidConductoresBtn = document.getElementById('androidConductoresBtn');
+        const androidQrModal = document.getElementById('androidQrModal');
+        const closeAndroidModalBtn = document.getElementById('closeAndroidModalBtn');
+        const androidQrcodeContainer = document.getElementById('androidQrcode');
+        let androidQrCodeGenerated = false;
+
+        androidConductoresBtn.addEventListener('click', () => {
+            if (!androidQrCodeGenerated) {
+                new QRCode(androidQrcodeContainer, {
+                    text: 'https://play.google.com/store/apps/details?id=com.example.driverapp', // URL de ejemplo para el QR
+                    width: 192,
+                    height: 192,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                androidQrCodeGenerated = true;
+            }
+            androidQrModal.classList.remove('hidden');
+            androidQrModal.style.opacity = 0;
+            setTimeout(() => androidQrModal.style.opacity = 1, 10);
+        });
+
+        const closeAndroidModal = () => {
+            androidQrModal.style.opacity = 0;
+            setTimeout(() => androidQrModal.classList.add('hidden'), 300);
+        };
+
+        closeAndroidModalBtn.addEventListener('click', closeAndroidModal);
+
+        androidQrModal.addEventListener('click', (event) => {
+            if (event.target === androidQrModal) {
+                closeAndroidModal();
             }
         });
     </script>
