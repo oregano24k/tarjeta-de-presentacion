@@ -88,11 +88,8 @@
             </div>
         </div>
 
-        <!-- Botones de Acción --><div class="flex space-x-4">
-            <button id="saveContactBtn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Guardar Contacto
-            </button>
-            <button id="shareQrBtn" class="flex-1 bg-gray-800 dark:bg-gray-200 hover:bg-gray-900 dark:hover:bg-white text-white dark:text-gray-800 font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+        <!-- Botón de Acción --><div>
+            <button id="shareQrBtn" class="w-full bg-gray-800 dark:bg-gray-200 hover:bg-gray-900 dark:hover:bg-white text-white dark:text-gray-800 font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 Compartir QR
             </button>
         </div>
@@ -121,52 +118,6 @@
     </div>
 
     <script>
-        // --- CONFIGURACIÓN DE TU INFORMACIÓN DE CONTACTO ---
-        // Asegúrate de que esta información coincida con la que pusiste en el HTML.
-        const contactInfo = {
-            firstName: 'Antonio', 
-            lastName: 'Rodríguez', 
-            title: 'Director de Informática', // Actualizado
-            organization: '', // Actualizado
-            phone: '898-456-3455',
-            website: 'https://jsdriver.net' 
-        };
-        // --- FIN DE LA CONFIGURACIÓN ---
-
-
-        // Lógica para el botón "Guardar Contacto"
-        document.getElementById('saveContactBtn').addEventListener('click', () => {
-            // Construye el contenido del archivo vCard (.vcf)
-            let vCard = `BEGIN:VCARD
-VERSION:3.0
-N:${contactInfo.lastName};${contactInfo.firstName};;;
-FN:${contactInfo.firstName} ${contactInfo.lastName}
-TITLE:${contactInfo.title}
-ORG:${contactInfo.organization}
-TEL;TYPE=WORK,VOICE:${contactInfo.phone}`;
-            
-            if (contactInfo.website) {
-                vCard += `\nURL:${contactInfo.website}`;
-            }
-
-            vCard += `\nEND:VCARD`;
-
-            // Crea un objeto Blob para el archivo
-            const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-
-            // Crea un enlace temporal para iniciar la descarga
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${contactInfo.firstName}_${contactInfo.lastName}.vcf`);
-            document.body.appendChild(link);
-            link.click();
-
-            // Limpia el enlace temporal
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        });
-
         // Lógica para el botón de Tiendas
         const tiendasBtn = document.getElementById('tiendasBtn');
         const tiendasSection = document.getElementById('tiendasSection');
