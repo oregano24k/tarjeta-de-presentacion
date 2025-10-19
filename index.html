@@ -43,7 +43,7 @@
     <div id="loginScreen" class="w-full max-w-sm">
         <div class="bg-gradient-to-b from-blue-700 to-blue-500 dark:from-blue-900 dark:to-blue-700 rounded-2xl shadow-lg p-8 text-center">
             <h1 class="text-2xl font-bold text-white mb-4">Acceso</h1>
-            <p class="text-blue-100 mb-6">Introduce la clave para continuar.</p>
+            <p class="text-blue-100 mb-6 animate-blink">Introduce la clave para continuar.</p>
             <input type="password" id="claveInput" class="w-full px-4 py-2 mb-2 text-center bg-blue-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition-colors" placeholder="****">
             <p id="errorMessage" class="text-red-300 text-sm mb-4 h-5 hidden">Clave incorrecta.</p>
             <button id="loginBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
@@ -56,10 +56,8 @@
     <div id="mainContent" class="hidden w-full max-w-sm">
         <div class="bg-gradient-to-b from-blue-600 to-blue-500 dark:from-blue-900 dark:to-blue-800 rounded-2xl shadow-lg p-8 text-center">
             <!-- Sección de la imagen de perfil -->
-            <div class="mb-4 p-1 bg-white/30 rounded-full w-36 h-36 mx-auto flex items-center justify-center">
-                <img class="w-full h-full rounded-full object-cover shadow-md"
-                     src="logo.png" 
-                     alt="Logo de perfil">
+            <div class="mb-4 p-1 bg-white rounded-full w-36 h-36 mx-auto flex items-center justify-center">
+                
             </div>
 
             <!-- Sección de Nombre y Cargo --><div class="mb-6">
