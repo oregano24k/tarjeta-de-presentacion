@@ -179,28 +179,33 @@
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const errorMessage = document.getElementById('errorMessage');
+        const bodyEl = document.body;
         
         // Define los perfiles de usuario
         const userProfiles = {
             '1234': {
                 name: 'Antonio Rodríguez',
                 title: 'Director de Informática',
-                blinkingTitle: true
+                blinkingTitle: true,
+                bgColor: 'bg-white'
             },
             '1111': {
                 name: 'Julio Mendez',
                 title: 'CEO',
-                blinkingTitle: false
+                blinkingTitle: false,
+                bgColor: 'bg-red-600'
             },
             '2222': {
                 name: 'Frank Alvarado',
                 title: 'Director General',
-                blinkingTitle: false
+                blinkingTitle: false,
+                bgColor: 'bg-red-600'
             },
             '3333': {
                 name: 'Altagracia Mendez',
                 title: 'Gerente General',
-                blinkingTitle: false
+                blinkingTitle: false,
+                bgColor: 'bg-red-600'
             }
         };
 
@@ -219,6 +224,14 @@
                     userTitleEl.classList.add('animate-blink');
                 } else {
                     userTitleEl.classList.remove('animate-blink');
+                }
+
+                // Limpia clases de color anteriores y aplica la nueva
+                bodyEl.classList.remove('bg-gray-100', 'bg-red-50', 'bg-white', 'bg-red-600');
+                if (profile.bgColor) {
+                    bodyEl.classList.add(profile.bgColor);
+                } else {
+                    bodyEl.classList.add('bg-gray-100');
                 }
 
                 // Muestra el contenido principal
@@ -242,6 +255,11 @@
             loginScreen.classList.remove('hidden');
             // Limpia el campo de la clave
             claveInput.value = '';
+
+            // Restablece el color de fondo al predeterminado
+            bodyEl.classList.remove('bg-red-50', 'bg-white', 'bg-red-600');
+            bodyEl.classList.add('bg-gray-100');
+
             // Asegúrate de que la sección de tiendas esté oculta para el próximo login
             tiendasSection.classList.add('hidden');
         };
@@ -384,4 +402,5 @@
 
 </body>
 </html>
+
 
