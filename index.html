@@ -7,6 +7,10 @@
     <!-- Configuración para PWA -->
     <meta name="theme-color" content="#4A90E2"/>
     <link rel="manifest" id="manifestLink">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tarjeta V.">
+
 
     <!-- Tailwind CSS para un diseño moderno y responsivo --><script src="https://cdn.tailwindcss.com"></script>
     <!-- Biblioteca para generar códigos QR --><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
@@ -58,7 +62,15 @@
 
     <!-- Contenido Principal (inicialmente oculto) -->
     <div id="mainContent" class="hidden w-full max-w-sm">
-        <div class="bg-gradient-to-b from-blue-600 to-blue-500 dark:from-blue-900 dark:to-blue-800 rounded-2xl shadow-lg p-8 text-center">
+        <div class="relative bg-gradient-to-b from-blue-600 to-blue-500 dark:from-blue-900 dark:to-blue-800 rounded-2xl shadow-lg p-8 text-center">
+            
+             <!-- Botón de Información/Instalación Manual -->
+            <button id="infoInstallBtn" class="absolute top-4 right-4 text-white/70 hover:text-white transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
             <!-- Sección de la imagen de perfil -->
             <div class="mb-4 p-1 bg-white rounded-full w-36 h-36 mx-auto flex items-center justify-center">
                 
@@ -151,74 +163,105 @@
     </div>
 
 
-    <!-- Modal para el Código QR (inicialmente oculto) --><div id="qrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <!-- Modals de Información -->
+    <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-4">Escanea para compartir</h3>
             <div id="qrcode" class="flex justify-center mb-4"></div>
             <p class="text-gray-600 text-sm">Apunta la cámara de tu teléfono a este código para abrir mi tarjeta.</p>
-            <button id="closeModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
     
-    <!-- Modal para el QR de Conductores --><div id="androidQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <div id="androidQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-4">QR Conductores</h3>
             <div id="androidQrcode" class="flex justify-center mb-4"></div>
             <p class="text-gray-600 text-sm">Escanea para descargar la app de conductor.</p>
-            <button id="closeAndroidModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
 
-    <!-- Modal para el QR de Clientes --><div id="clientesQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <div id="clientesQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-4">QR Clientes</h3>
             <div id="clientesQrcode" class="flex justify-center mb-4"></div>
             <p class="text-gray-600 text-sm">Escanea para descargar la app de cliente.</p>
-            <button id="closeClientesModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
     
-    <!-- Modal para Mensaje de Instagram --><div id="instagramModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <div id="instagramModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-2 text-gray-800">Instagram</h3>
             <p class="text-gray-700 text-lg">jsdriverrd</p>
-            <button id="closeInstagramModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
 
-    <!-- Modal para Mensaje de Correo Electrónico --><div id="emailModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <div id="emailModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-2 text-gray-800">Correo Electrónico</h3>
             <p class="text-gray-700 text-lg">jsdriver@jsdriverrd.com</p>
-            <button id="closeEmailModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
     
-    <!-- Modal para Mensaje de Web --><div id="webModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <div id="webModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-2 text-gray-800">Web</h3>
             <p class="text-gray-700 text-lg">www.jsdriver.net</p>
-            <button id="closeWebModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
     
-    <!-- Modal para Mensaje de Teléfono --><div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+    <div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
         <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
             <h3 class="text-xl font-bold mb-2 text-gray-800">Teléfono</h3>
             <p class="text-gray-700 text-lg">564344</p>
-            <button id="closePhoneModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal de Instrucciones de Instalación -->
+    <div id="installInstructionsModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-left relative max-w-xs w-full">
+            <h3 class="text-xl font-bold mb-4 text-center">Añadir a Inicio</h3>
+            
+            <!-- Instrucciones para iOS/Safari -->
+            <div id="ios-instructions" class="hidden space-y-2">
+                <p>1. Pulsa el botón de <strong>Compartir</strong>.</p>
+                 <div class="text-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" /></svg></div>
+                <p>2. Selecciona <strong>"Añadir a pantalla de inicio"</strong>.</p>
+                 <div class="text-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block" viewBox="0 0 20 20" fill="currentColor"><path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" /></svg></div>
+            </div>
+
+            <!-- Instrucciones para Samsung Internet -->
+            <div id="samsung-instructions" class="hidden space-y-2">
+                <p>1. Pulsa el icono de <strong>Descarga</strong> en la barra de direcciones.</p>
+                 <div class="text-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg></div>
+            </div>
+
+            <!-- Instrucciones Genéricas/Chrome -->
+            <div id="default-instructions" class="hidden space-y-2">
+                <p>Busca la opción <strong>"Instalar aplicación"</strong> o <strong>"Añadir a pantalla de inicio"</strong> en el menú de tu navegador.</p>
+            </div>
+
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
@@ -337,31 +380,19 @@
             const profile = userProfiles[clave];
 
             if (profile) {
-                // Actualiza la información del usuario en la tarjeta
                 document.getElementById('userName').textContent = profile.name;
                 const userTitleEl = document.getElementById('userTitle');
                 userTitleEl.textContent = profile.title;
-                
-                // Aplica la animación de parpadeo si corresponde
-                if (profile.blinkingTitle) {
-                    userTitleEl.classList.add('animate-blink');
-                } else {
-                    userTitleEl.classList.remove('animate-blink');
-                }
+                userTitleEl.classList.toggle('animate-blink', profile.blinkingTitle);
 
-                // Limpia clases de color anteriores y aplica la nueva
-                bodyEl.classList.remove('bg-gray-100', 'bg-white', 'bg-gradient-to-b', 'from-red-800', 'to-red-600', 'from-red-900', 'to-red-500');
+                bodyEl.className = 'bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4';
                 if (profile.bgColor) {
                     bodyEl.classList.add(...profile.bgColor.split(' '));
-                } else {
-                    bodyEl.classList.add('bg-gray-100');
                 }
-
-                // Muestra el contenido principal
+                
                 loginScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
             } else {
-                // Maneja la clave incorrecta
                 errorMessage.classList.remove('hidden');
                 claveInput.value = '';
                 claveInput.classList.add('animate-shake', 'border', 'border-red-500');
@@ -373,160 +404,29 @@
         };
 
         const doLogout = () => {
-            // Oculta el contenido principal y muestra la pantalla de login
             mainContent.classList.add('hidden');
             loginScreen.classList.remove('hidden');
-            // Limpia el campo de la clave
             claveInput.value = '';
-
-            // Restablece el color de fondo al predeterminado
-            bodyEl.classList.remove('bg-white', 'bg-gradient-to-b', 'from-red-800', 'to-red-600', 'from-red-900', 'to-red-500');
-            bodyEl.classList.add('bg-gray-100');
-
-            // Asegúrate de que la sección de tiendas esté oculta para el próximo login
+            bodyEl.className = 'bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4';
             tiendasSection.classList.add('hidden');
         };
 
         loginBtn.addEventListener('click', checkLogin);
         logoutBtn.addEventListener('click', doLogout);
+        claveInput.addEventListener('keyup', (event) => { if (event.key === 'Enter') checkLogin(); });
 
-        claveInput.addEventListener('keyup', (event) => {
-            if (event.key === 'Enter') {
-                checkLogin();
-            }
-        });
-        // --- FIN DE LÓGICA DEL LOGIN ---
-
-
-        // Lógica para el botón de Tiendas
         const tiendasBtn = document.getElementById('tiendasBtn');
         const tiendasSection = document.getElementById('tiendasSection');
+        tiendasBtn.addEventListener('click', () => tiendasSection.classList.toggle('hidden'));
 
-        tiendasBtn.addEventListener('click', () => {
-            tiendasSection.classList.toggle('hidden');
-        });
-
-
-        // Lógica para el modal del código QR
-        const qrModal = document.getElementById('qrModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const qrcodeContainer = document.getElementById('qrcode');
-        let qrCodeGenerated = false;
-
-        shareQrBtn.addEventListener('click', () => {
-            if (!qrCodeGenerated) {
-                new QRCode(qrcodeContainer, {
-                    text: window.location.href,
-                    width: 192,
-                    height: 192,
-                    colorDark : "#000000",
-                    colorLight : "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.H
-                });
-                qrCodeGenerated = true;
-            }
-            qrModal.classList.remove('hidden');
-            qrModal.style.opacity = 0;
-            setTimeout(() => qrModal.style.opacity = 1, 10);
-        });
-
-        const closeModal = () => {
-            qrModal.style.opacity = 0;
-             setTimeout(() => qrModal.classList.add('hidden'), 300);
-        };
-        
-        closeModalBtn.addEventListener('click', closeModal);
-        
-        qrModal.addEventListener('click', (event) => {
-            if (event.target === qrModal) {
-                closeModal();
-            }
-        });
-
-        // Lógica para el modal del QR de Conductores
-        const androidConductoresBtn = document.getElementById('androidConductoresBtn');
-        const androidQrModal = document.getElementById('androidQrModal');
-        const closeAndroidModalBtn = document.getElementById('closeAndroidModalBtn');
-        const androidQrcodeContainer = document.getElementById('androidQrcode');
-        let androidQrCodeGenerated = false;
-
-        androidConductoresBtn.addEventListener('click', () => {
-            if (!androidQrCodeGenerated) {
-                new QRCode(androidQrcodeContainer, {
-                    text: 'https://oregano24k.github.io/qr-conductores/',
-                    width: 192,
-                    height: 192,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                androidQrCodeGenerated = true;
-            }
-            androidQrModal.classList.remove('hidden');
-            androidQrModal.style.opacity = 0;
-            setTimeout(() => androidQrModal.style.opacity = 1, 10);
-        });
-
-        const closeAndroidModal = () => {
-            androidQrModal.style.opacity = 0;
-            setTimeout(() => androidQrModal.classList.add('hidden'), 300);
-        };
-
-        closeAndroidModalBtn.addEventListener('click', closeAndroidModal);
-
-        androidQrModal.addEventListener('click', (event) => {
-            if (event.target === androidQrModal) {
-                closeAndroidModal();
-            }
-        });
-
-        // Lógica para el modal del QR de Clientes
-        const clientesBtn = document.getElementById('clientesBtn');
-        const clientesQrModal = document.getElementById('clientesQrModal');
-        const closeClientesModalBtn = document.getElementById('closeClientesModalBtn');
-        const clientesQrcodeContainer = document.getElementById('clientesQrcode');
-        let clientesQrCodeGenerated = false;
-
-        clientesBtn.addEventListener('click', () => {
-            if (!clientesQrCodeGenerated) {
-                new QRCode(clientesQrcodeContainer, {
-                    text: 'https://oregano24k.github.io/qr-cliente-/',
-                    width: 192,
-                    height: 192,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.H
-                });
-                clientesQrCodeGenerated = true;
-            }
-            clientesQrModal.classList.remove('hidden');
-            clientesQrModal.style.opacity = 0;
-            setTimeout(() => clientesQrModal.style.opacity = 1, 10);
-        });
-
-        const closeClientesModal = () => {
-            clientesQrModal.style.opacity = 0;
-            setTimeout(() => clientesQrModal.classList.add('hidden'), 300);
-        };
-
-        closeClientesModalBtn.addEventListener('click', closeClientesModal);
-
-        clientesQrModal.addEventListener('click', (event) => {
-            if (event.target === clientesQrModal) {
-                closeClientesModal();
-            }
-        });
-        
-        // --- Lógica para los modales de información ---
-        function setupModal(buttonId, modalId, closeButtonId) {
-            const button = document.getElementById(buttonId);
+        // --- Lógica de Modales ---
+        function setupModal(triggerId, modalId) {
             const modal = document.getElementById(modalId);
-            const closeButton = document.getElementById(closeButtonId);
-
+            const trigger = document.getElementById(triggerId);
+            
             const openModal = () => {
                 modal.classList.remove('hidden');
-                modal.style.opacity = 0;
-                setTimeout(() => modal.style.opacity = 1, 10);
+                requestAnimationFrame(() => modal.style.opacity = 1);
             };
 
             const closeModal = () => {
@@ -534,20 +434,70 @@
                 setTimeout(() => modal.classList.add('hidden'), 300);
             };
 
-            button.addEventListener('click', openModal);
-            closeButton.addEventListener('click', closeModal);
+            if (trigger) trigger.addEventListener('click', openModal);
+            
             modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
+                if (event.target === modal || event.target.closest('.close-modal-btn')) {
                     closeModal();
                 }
             });
         }
+        
+        // Lógica QR y Modales de Información
+        const qrCodeContainer = document.getElementById('qrcode');
+        let qrCodeGenerated = false;
+        document.getElementById('shareQrBtn').addEventListener('click', () => {
+             if (!qrCodeGenerated) {
+                new QRCode(qrCodeContainer, { text: window.location.href, width: 192, height: 192 });
+                qrCodeGenerated = true;
+            }
+            setupModal(null, 'qrModal'); // Abre el modal programáticamente
+            document.getElementById('qrModal').classList.remove('hidden');
+            requestAnimationFrame(() => document.getElementById('qrModal').style.opacity = 1);
+        });
 
-        setupModal('instagramBtn', 'instagramModal', 'closeInstagramModalBtn');
-        setupModal('emailBtn', 'emailModal', 'closeEmailModalBtn');
-        setupModal('webBtn', 'webModal', 'closeWebModalBtn');
-        setupModal('phoneBtn', 'phoneModal', 'closePhoneModalBtn');
+        let androidQrCodeGenerated = false;
+        document.getElementById('androidConductoresBtn').addEventListener('click', () => {
+            if(!androidQrCodeGenerated) {
+                new QRCode(document.getElementById('androidQrcode'), { text: 'https://oregano24k.github.io/qr-conductores/', width: 192, height: 192 });
+                androidQrCodeGenerated = true;
+            }
+            setupModal(null, 'androidQrModal');
+            document.getElementById('androidQrModal').classList.remove('hidden');
+            requestAnimationFrame(() => document.getElementById('androidQrModal').style.opacity = 1);
+        });
 
+        let clientesQrCodeGenerated = false;
+        document.getElementById('clientesBtn').addEventListener('click', () => {
+            if(!clientesQrCodeGenerated) {
+                new QRCode(document.getElementById('clientesQrcode'), { text: 'https://oregano24k.github.io/qr-cliente-/', width: 192, height: 192 });
+                clientesQrCodeGenerated = true;
+            }
+            setupModal(null, 'clientesQrModal');
+            document.getElementById('clientesQrModal').classList.remove('hidden');
+            requestAnimationFrame(() => document.getElementById('clientesQrModal').style.opacity = 1);
+        });
+        
+        // Inicializar todos los modales
+        setupModal('phoneBtn', 'phoneModal');
+        setupModal('webBtn', 'webModal');
+        setupModal('emailBtn', 'emailModal');
+        setupModal('instagramBtn', 'instagramModal');
+        setupModal('infoInstallBtn', 'installInstructionsModal');
+        
+        // Lógica para mostrar instrucciones de instalación correctas
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        const iosInstructions = document.getElementById('ios-instructions');
+        const samsungInstructions = document.getElementById('samsung-instructions');
+        const defaultInstructions = document.getElementById('default-instructions');
+
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            iosInstructions.classList.remove('hidden');
+        } else if (/SamsungBrowser/.test(userAgent)) {
+            samsungInstructions.classList.remove('hidden');
+        } else {
+            defaultInstructions.classList.remove('hidden');
+        }
     </script>
 
 </body>
