@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarjeta de Presentación Virtual</title>
+    <!-- Configuración para PWA -->
+    <meta name="theme-color" content="#4A90E2"/>
+    <link rel="manifest" id="manifestLink">
+
     <!-- Tailwind CSS para un diseño moderno y responsivo --><script src="https://cdn.tailwindcss.com"></script>
     <!-- Biblioteca para generar códigos QR --><script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -123,8 +127,16 @@
                 </div>
             </div>
 
-            <!-- Botón de Acción --><div>
-                <button id="shareQrBtn" class="w-full bg-white dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-300 text-blue-600 font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <!-- Botones de Acción -->
+            <div class="grid grid-cols-2 gap-3">
+                <button id="installBtn" class="hidden flex items-center justify-center w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
+                        <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    Instalar App
+                </button>
+                <button id="shareQrBtn" class="w-full bg-white dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-300 text-blue-600 font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 col-span-2">
                     Compartir QR
                 </button>
             </div>
@@ -214,6 +226,75 @@
 
 
     <script>
+        // --- LÓGICA PWA (INSTALACIÓN Y SERVICE WORKER) ---
+
+        // 1. Generar el manifiesto de la aplicación dinámicamente
+        const manifest = {
+            "name": "Tarjeta de Presentación Virtual",
+            "short_name": "Tarjeta Virtual",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#ffffff",
+            "theme_color": "#4A90E2",
+            "description": "Una tarjeta de presentación virtual interactiva.",
+            "icons": [
+                {
+                    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAVoSURBVHic7d1NruNUAIDhYQJqonhEwUeI6AM0+v/f2N0JpTQUsu3FndmZ3dkzFzRarFar1WoFhBBCCCGEEEKIx4B7wFXgGfC+/wR+AJ+Bl8AzYFzYVQq4NN3B3Ad+BL+l/yjwBngCvAQ+AD/p/i3wb7/JNeA+cBN4xvrf3wJ/AZ/YfqgC3wOvgf3G9wS42/474Fmw3/iugPeA74B3gYfAHeD74L3GHwOuwP3Gbwe8C7wBPAHesP7t8G5jfzvgGfCv8R0B7gHvG98d4AngV+M7A/wJ/G58B4A7wG/GdwE4ADwZvzPAc+B34zMAHAV+Mz4DwCvGb1oX/AB8ZnwA4G+i9wQ4B3wF/GZwBbhm4wDwrfHdwb4G3hvYgA8W9i4A/xrYgCcG1gAHzb2AIDwFfH9wA49hDAZeA48R0C/AbAeeAj43MAvAfAfeDbgwvAteA+cDQDfk/AJeA4cFzYA/A8AP8NnAGuA/eArwAeA7/Y/DngC/AKeA/4L3AAvGv89wB3gb+B34A3gD3C34KPAVfh/0LHgA/AD+C/w2uA7cCfwE/A28BvwwsA/A4cAC8DfwM3AbcBvwAXgbcDvwwXgd+Ad4AvgE+BP4A3gE/B24QfwZvA3cBT4AvgT+AG4BnwCPAEcA94GngO+C3wNfBf4LvgM+CbwbWAU+A34DfgtcAP4Dfgo8CrwS+Az4LfAB+CXwCvAS+CnwMvA54DPgV8AXgA+F3wB+CzwXOC5wDPAZ4DPgs8A3wPvBW8CbwTvBO8BLwEvA18CfgW8CjwL/AJ4BvgF+A34DvgE+A74LPAI+CjwUOCxwCPAI8CjwCPAI8CDwEPAg8AzwPOAp4DngL8BzwIfAp8C7wO/D58BnwO/Aj4CPgO+Az4CPgW8CFwEXgQuAi8CtwDvBXcBt4G7wB3gdeAt4HXgd4G/Al4BngJeAl4CngKeBq4FrgYuAy4DzgDOAKcAG4AfgAuAm4AfgFuAp4GngGeB7wIPAQ8CDwCPAw4DDgIOAg4BjgIOAscBigDHAcsAawClgFcBrAN4ALgIuBC4CfgTeAl4CngcuA84DrwDvAXeBO4BbgAeAB4AFgAWAAYAGwCrAKWAKwDOAawA3AYoA5wGnAQcAxwEHAYcBhwEPAg8AzwPOAp4BngI8B3wKfA+8DnwM+B3wDfAZ8BnwIfAl4ALwIXAbeAt4B7gLuAm4BngbeAzwN/Al4DXgOuAq4BjgDOA24AXgCeAA4AbgAWAdsAywBNgMsAWwALAEsAfwEcBZwFfAcsAawHPAWsAJYD1gNsAawGrAKsAFgCbAKsAq4AXgKuAu4GngOuA14C3gXeA94CfgR+BH4EfgB+AP4BfhZ8AXgB+AP4EvgC+Br4FPgO+A74Hvg+8BvAN8GfgB+DfwM/Bj4GfgB+DfwG/AN8A3wFPAy8Fnge8D7wTvAe8FbwCvAK8A3wKvA14DvgdeBT4APgE+B7wAvAF8CngE+Bzwf+LzgG8AvgE+B5wDPgG8CnwU+C3wHfA/8AfwG/BD4A/gI+CDwUfA3cBX4LfgD8FfwA/AH8DfgG+A74Gvge8CbwG/AJ8CjwAfAx8CHwAeB7wCPAM8CPwMPAd8CzwE/Ap8CbwPvAs8CzwOvAw8B54DHgF+C4wI/AYcC3ge8C7wAvAGeAP4EHgAeBV4D/gc+ArwJfgLcA/wOvAM+B94Gvge8CrwDfAC8CjwAfAJ8G/ge+BnwO/AH4Dfge+CjwKfA58CXwOfAd8CngM+APwEfAJ8Cfgc+ALwEvAhcCvws+Bb4Cfgo8CvwC+AP4IfBf4DPgJ+CbwLd/y8EIIYQQQgghhBBf8/Yv9+e9bSgA4kIAAAAASUVORK5CYII=",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                },
+                {
+                    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAn3SURBVHic7d1NruNVAIDhYQJqonhEwUeI6AM0+v/f2N0JpTQUsu3FndmZ3dkzFzRarFar1WoFhBBCCCGEEEKIx4B7wFXgGfC+/wR+AJ+Bl8AzYFzYVQq4NN3B3Ad+BL+l/yjwBngCvAQ+AD/p/i3wb7/JNeA+cBN4xvrf3wJ/AZ/YfqgC3wOvgf3G9wS42/474Fmw3/iugPeA74B3gYfAHeD74L3GHwOuwP3Gbwe8C7wBPAHesP7t8G5jfzvgGfCv8R0B7gHvG98d4AngV+M7A/wJ/G58B4A7wG/GdwE4ADwZvzPAc+B34zMAHAV+Mz4DwCvGb1oX/AB8ZnwA4G+i9wQ4B3wF/GZwBbhm4wDwrfHdwb4G3hvYgA8W9i4A/xrYgCcG1gAHzb2AIDwFfH9wA49hDAZeA48R0C/AbAeeAj43MAvAfAfeDbgwvAteA+cDQDfk/AJeA4cFzYA/A8AP8NnAGuA/eArwAeA7/Y/DngC/AKeA/4L3AAvGv89wB3gb+B34A3gD3C34KPAVfh/0LHgA/AD+C/w2uA7cCfwE/A28BvwwsA/A4cAC8DfwM3AbcBvwAXgbcDvwwXgd+Ad4AvgE+BP4A3gE/B24QfwZvA3cBT4AvgT+AG4BnwCPAEcA94GngO+C3wNfBf4LvgM+CbwbWAU+A34DfgtcAP4Dfgo8CrwS+Az4LfAB+CXwCvAS+CnwMvA54DPgV8AXgA+F3wB+CzwXOC5wDPAZ4DPgs8A3wPvBW8CbwTvBO8BLwEvA18CfgW8CjwL/AJ4BvgF+A34DvgE+A74LPAI+CjwUOCxwCPAI8CjwCPAI8CDwEPAg8AzwPOAp4DngL8BzwIfAp8C7wO/D58BnwO/Aj4CPgO+Az4CPgW8CFwEXgQuAi8CtwDvBXcBt4G7wB3gdeAt4HXgd4G/Al4BngJeAl4CngKeBq4FrgYuAy4DzgDOAKcAG4AfgAuAm4AfgFuAp4GngGeB7wIPAQ8CDwCPAw4DDgIOAg4BjgIOAscBigDHAcsAawClgFcBrAN4ALgIuBC4CfgTeAl4CngcuA84DrwDvAXeBO4BbgAeAB4AFgAWAAYAGwCrAKWAKwDOAawA3AYoA5wGnAQcAxwEHAYcBhwEPAg8AzwPOAp4BngI8B3wKfA+8DnwM+B3wDfAZ8BnwIfAl4ALwIXAbeAt4B7gLuAm4BngbeAzwN/Al4DXgOuAq4BjgDOA24AXgCeAA4AbgAWAdsAywBNgMsAWwALAEsAfwEcBZwFfAcsAawHPAWsAJYD1gNsAawGrAKsAFgCbAKsAq4AXgKuAu4GngOuA14C3gXeA94CfgR+BH4EfgB+AP4BfhZ8AXgB+AP4EvgC+Br4FPgO+A74Hvg+8BvAN8GfgB+DfwM/Bj4GfgB+DfwG/AN8A3wFPAy8Fnge8D7wTvAe8FbwCvAK8A3wKvA14DvgdeBT4APgE+B7wAvAF8CngE+Bzwf+LzgG8AvgE+B5wDPgG8CnwU+C3wHfA/8AfwG/BD4A/gI+CDwUfA3cBX4LfgD8FfwA/AH8DfgG+A74Gvge8CbwG/AJ8CjwAfAx8CHwAeB7wCPAM8CPwMPAd8CzwE/Ap8CbwPvAs8CzwOvAw8B54DHgF+C4wI/AYcC3ge8C7wAvAGeAP4EHgAeBV4D/gc+ArwJfgLcA/wOvAM+B94Gvge8CrwDfAC8CjwAfAJ8G/ge+BnwO/AH4Dfge+CjwKfA58CXwOfAd8CngM+APwEfAJ8Cfgc+ALwEvAhcCvws+Bb4Cfgo8CvwC+AP4IfBf4DPgJ+CbwLd/y8EIIYQQQgghhBBf8/Yv9+e9bSgA4kIAAAAASUVORK5CYII=",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                }
+            ]
+        };
+        const manifestString = JSON.stringify(manifest);
+        const manifestBlob = new Blob([manifestString], {type: 'application/json'});
+        const manifestUrl = URL.createObjectURL(manifestBlob);
+        document.getElementById('manifestLink').setAttribute('href', manifestUrl);
+
+        // 2. Registrar el Service Worker
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', (event) => {
+                    console.log('Service Worker installing.');
+                });
+                self.addEventListener('fetch', (event) => {
+                    event.respondWith(fetch(event.request));
+                });
+            `;
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl)
+                .then(registration => console.log('Service Worker registrado con éxito:', registration))
+                .catch(error => console.log('Fallo en el registro del Service Worker:', error));
+        }
+
+        // 3. Lógica para el botón de instalación
+        let deferredPrompt;
+        const installBtn = document.getElementById('installBtn');
+        const shareQrBtn = document.getElementById('shareQrBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+            shareQrBtn.classList.remove('col-span-2');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`Respuesta del usuario: ${outcome}`);
+                deferredPrompt = null;
+                installBtn.classList.add('hidden');
+                shareQrBtn.classList.add('col-span-2');
+            }
+        });
+
         // --- LÓGICA DEL LOGIN ---
         const loginScreen = document.getElementById('loginScreen');
         const mainContent = document.getElementById('mainContent');
@@ -328,16 +409,14 @@
 
         // Lógica para el modal del código QR
         const qrModal = document.getElementById('qrModal');
-        const shareQrBtn = document.getElementById('shareQrBtn');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const qrcodeContainer = document.getElementById('qrcode');
         let qrCodeGenerated = false;
 
         shareQrBtn.addEventListener('click', () => {
-            // Genera el código QR solo la primera vez que se abre el modal
             if (!qrCodeGenerated) {
                 new QRCode(qrcodeContainer, {
-                    text: window.location.href, // Usa la URL actual de la página
+                    text: window.location.href,
                     width: 192,
                     height: 192,
                     colorDark : "#000000",
@@ -346,7 +425,6 @@
                 });
                 qrCodeGenerated = true;
             }
-            // Muestra el modal
             qrModal.classList.remove('hidden');
             qrModal.style.opacity = 0;
             setTimeout(() => qrModal.style.opacity = 1, 10);
@@ -359,7 +437,6 @@
         
         closeModalBtn.addEventListener('click', closeModal);
         
-        // Cierra el modal si se hace clic fuera del contenido
         qrModal.addEventListener('click', (event) => {
             if (event.target === qrModal) {
                 closeModal();
@@ -376,7 +453,7 @@
         androidConductoresBtn.addEventListener('click', () => {
             if (!androidQrCodeGenerated) {
                 new QRCode(androidQrcodeContainer, {
-                    text: 'https://oregano24k.github.io/qr-conductores/', // URL actualizada para el QR
+                    text: 'https://oregano24k.github.io/qr-conductores/',
                     width: 192,
                     height: 192,
                     colorDark: "#000000",
@@ -413,7 +490,7 @@
         clientesBtn.addEventListener('click', () => {
             if (!clientesQrCodeGenerated) {
                 new QRCode(clientesQrcodeContainer, {
-                    text: 'https://oregano24k.github.io/qr-cliente-/', // URL para el QR de Clientes
+                    text: 'https://oregano24k.github.io/qr-cliente-/',
                     width: 192,
                     height: 192,
                     colorDark: "#000000",
@@ -440,101 +517,36 @@
             }
         });
         
-        // Lógica para el modal de Instagram
-        const instagramBtn = document.getElementById('instagramBtn');
-        const instagramModal = document.getElementById('instagramModal');
-        const closeInstagramModalBtn = document.getElementById('closeInstagramModalBtn');
+        // --- Lógica para los modales de información ---
+        function setupModal(buttonId, modalId, closeButtonId) {
+            const button = document.getElementById(buttonId);
+            const modal = document.getElementById(modalId);
+            const closeButton = document.getElementById(closeButtonId);
 
-        instagramBtn.addEventListener('click', () => {
-            instagramModal.classList.remove('hidden');
-            instagramModal.style.opacity = 0;
-            setTimeout(() => instagramModal.style.opacity = 1, 10);
-        });
+            const openModal = () => {
+                modal.classList.remove('hidden');
+                modal.style.opacity = 0;
+                setTimeout(() => modal.style.opacity = 1, 10);
+            };
 
-        const closeInstagramModal = () => {
-            instagramModal.style.opacity = 0;
-            setTimeout(() => instagramModal.classList.add('hidden'), 300);
-        };
+            const closeModal = () => {
+                modal.style.opacity = 0;
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            };
 
-        closeInstagramModalBtn.addEventListener('click', closeInstagramModal);
+            button.addEventListener('click', openModal);
+            closeButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        }
 
-        instagramModal.addEventListener('click', (event) => {
-            if (event.target === instagramModal) {
-                closeInstagramModal();
-            }
-        });
-        
-        // Lógica para el modal de Correo Electrónico
-        const emailBtn = document.getElementById('emailBtn');
-        const emailModal = document.getElementById('emailModal');
-        const closeEmailModalBtn = document.getElementById('closeEmailModalBtn');
-
-        emailBtn.addEventListener('click', () => {
-            emailModal.classList.remove('hidden');
-            emailModal.style.opacity = 0;
-            setTimeout(() => emailModal.style.opacity = 1, 10);
-        });
-
-        const closeEmailModal = () => {
-            emailModal.style.opacity = 0;
-            setTimeout(() => emailModal.classList.add('hidden'), 300);
-        };
-
-        closeEmailModalBtn.addEventListener('click', closeEmailModal);
-
-        emailModal.addEventListener('click', (event) => {
-            if (event.target === emailModal) {
-                closeEmailModal();
-            }
-        });
-        
-        // Lógica para el modal de Web
-        const webBtn = document.getElementById('webBtn');
-        const webModal = document.getElementById('webModal');
-        const closeWebModalBtn = document.getElementById('closeWebModalBtn');
-
-        webBtn.addEventListener('click', () => {
-            webModal.classList.remove('hidden');
-            webModal.style.opacity = 0;
-            setTimeout(() => webModal.style.opacity = 1, 10);
-        });
-
-        const closeWebModal = () => {
-            webModal.style.opacity = 0;
-            setTimeout(() => webModal.classList.add('hidden'), 300);
-        };
-
-        closeWebModalBtn.addEventListener('click', closeWebModal);
-
-        webModal.addEventListener('click', (event) => {
-            if (event.target === webModal) {
-                closeWebModal();
-            }
-        });
-        
-        // Lógica para el modal de Teléfono
-        const phoneBtn = document.getElementById('phoneBtn');
-        const phoneModal = document.getElementById('phoneModal');
-        const closePhoneModalBtn = document.getElementById('closePhoneModalBtn');
-
-        phoneBtn.addEventListener('click', () => {
-            phoneModal.classList.remove('hidden');
-            phoneModal.style.opacity = 0;
-            setTimeout(() => phoneModal.style.opacity = 1, 10);
-        });
-
-        const closePhoneModal = () => {
-            phoneModal.style.opacity = 0;
-            setTimeout(() => phoneModal.classList.add('hidden'), 300);
-        };
-
-        closePhoneModalBtn.addEventListener('click', closePhoneModal);
-
-        phoneModal.addEventListener('click', (event) => {
-            if (event.target === phoneModal) {
-                closePhoneModal();
-            }
-        });
+        setupModal('instagramBtn', 'instagramModal', 'closeInstagramModalBtn');
+        setupModal('emailBtn', 'emailModal', 'closeEmailModalBtn');
+        setupModal('webBtn', 'webModal', 'closeWebModalBtn');
+        setupModal('phoneBtn', 'phoneModal', 'closePhoneModalBtn');
 
     </script>
 
