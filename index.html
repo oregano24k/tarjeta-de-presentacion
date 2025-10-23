@@ -23,6 +23,23 @@
         /* Pequeña animación para la aparición del modal */
         .modal-backdrop {
             transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        .modal {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        /* Estilos para mostrar el modal */
+        body.modal-open {
+            overflow: hidden;
+        }
+        .modal-backdrop:not(.hidden) {
+            opacity: 1;
+        }
+        .modal:not(.hidden) {
+            opacity: 1;
+            transform: scale(1);
         }
         /* Animación de parpadeo para el título */
         @keyframes blink {
@@ -73,32 +90,30 @@
 
             <!-- Sección de la imagen de perfil -->
             <div class="mb-4 p-1 bg-white rounded-full w-36 h-36 mx-auto flex items-center justify-center overflow-hidden">
-                <!-- PASO A SEGUIR: Coloca la imagen de tu logo aquí.
-                     Crea una carpeta 'images' en tu proyecto, guarda tu logo ahí,
-                     y asegúrate de que la ruta 'src' sea correcta.
-                     Ejemplo: src="images/logo.png" -->
                 <img id="userLogo" src="logo.jpeg" alt="Logo" class="w-full h-full object-cover">
             </div>
 
-            <!-- Sección de Nombre y Cargo --><div class="mb-6">
+            <!-- Sección de Nombre y Cargo -->
+            <div class="mb-6">
                 <h1 id="userName" class="text-2xl font-bold text-white"></h1>
                 <p id="userTitle" class="text-md text-blue-200 font-medium"></p>
             </div>
 
-            <!-- Sección de Enlaces de Contacto --><div class="space-y-3 mb-6">
+            <!-- Sección de Enlaces de Contacto -->
+            <div class="space-y-3 mb-6">
                 <button id="phoneBtn" class="flex items-center justify-center w-full bg-white hover:bg-gray-200 text-blue-600 font-medium py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.518.758a10.024 10.024 0 006.46 6.46l.758-1.518a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
                     <span>Teléfono</span>
                 </button>
                 
-                <!-- Botón para la dirección web --><button id="webBtn" class="flex items-center justify-center w-full bg-white hover:bg-gray-200 text-blue-600 font-medium py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                <button id="webBtn" class="flex items-center justify-center w-full bg-white hover:bg-gray-200 text-blue-600 font-medium py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.528-1.973 6.012 6.012 0 011.912 2.706C15.988 8.463 16 9.224 16 10c0 .776-.012 1.537-.034 2.273a6.012 6.012 0 01-1.912 2.706C13.488 14.27 13.026 14 12.5 14a1.5 1.5 0 01-1.5-1.5V12a2 2 0 00-4 0 2 2 0 01-1.528 1.973 6.012 6.012 0 01-1.912-2.706A7.962 7.962 0 014 10c0-.776.012-1.537.034-2.273z" clip-rule="evenodd" />
                     </svg>
                     <span>Web</span>
                 </button>
                 
-                <!-- Botón para Correo Electrónico --><button id="emailBtn" class="flex items-center justify-center w-full bg-white hover:bg-gray-200 text-blue-600 font-medium py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                <button id="emailBtn" class="flex items-center justify-center w-full bg-white hover:bg-gray-200 text-blue-600 font-medium py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                       <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
@@ -113,7 +128,8 @@
                     <span>Tiendas</span>
                 </button>
                 
-                <!-- Sección de Tiendas (inicialmente oculta) --><div id="tiendasSection" class="hidden mt-3 space-y-2 text-left">
+                <!-- Sección de Tiendas (inicialmente oculta) -->
+                <div id="tiendasSection" class="hidden mt-3 space-y-2 text-left">
                     <button id="androidConductoresBtn" class="flex items-center w-full bg-white/80 hover:bg-white text-blue-700 font-medium py-2 px-4 rounded-lg transition text-left">
                         <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.2,6.2C15.6,5.8 16,5.4 16.4,5L15,3.6L14.9,3.7C14.5,4.1 14.1,4.5 13.8,4.8C12.9,5.8 11.1,5.8 10.2,4.8L9,3.6L7.6,5C8,5.4 8.4,5.8 8.8,6.2C9.5,6.8 9.5,7.9 8.8,8.6L8.6,8.8C7.9,9.5 6.8,9.5 6.2,8.8C5.5,8.1 5.5,7 6.2,6.3L6.4,6.2C6.5,6 6.8,5.8 7,5.7L7.1,5.6L5.7,4.2L5.6,4.3C4.2,5.7 4.2,7.9 5.6,9.4L6,9.7L5.7,10C4.2,11.4 4.2,13.6 5.6,15L7,16.4L7,15.6V12H17V15.6L17,16.4L18.4,15C19.8,13.6 19.8,11.4 18.4,10L18,9.7L18.4,9.4C19.8,7.9 19.8,5.7 18.4,4.3L18.2,4.2L16.8,5.6L17,5.7C17.2,5.8 17.5,6 17.6,6.2L17.8,6.3C18.5,7 18.5,8.1 17.8,8.8C17.2,9.5 16.1,9.5 15.4,8.8L15.2,8.6C14.5,7.9 14.5,6.8 15.2,6.2M10.2,12.5V11.5H9.2V12.5H10.2M14.8,12.5V11.5H13.8V12.5H14.8Z"></path></svg>
                         Conductores
@@ -124,18 +140,22 @@
                     </button>
                 </div>
 
-                <!-- Sección de Redes Sociales --><div class="flex justify-center space-x-4 pt-2">
-                    <!-- Enlace a Facebook --><a href="#" target="_blank" rel="noopener noreferrer" class="text-blue-200 hover:text-white dark:text-gray-500 dark:hover:text-indigo-400 transition-colors">
+                <!-- Sección de Redes Sociales -->
+                <div class="flex justify-center space-x-4 pt-2">
+                    <!-- Enlace a Facebook -->
+                    <a id="facebookLink" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-200 hover:text-white dark:text-gray-500 dark:hover:text-indigo-400 transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
                         </svg>
                     </a>
-                    <!-- Botón de Instagram --><button id="instagramBtn" class="text-blue-200 hover:text-white dark:text-gray-500 dark:hover:text-indigo-400 transition-colors">
+                    <!-- Botón de Instagram -->
+                    <button id="instagramBtn" class="text-blue-200 hover:text-white dark:text-gray-500 dark:hover:text-indigo-400 transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.714.01 3.69.058 1.488.067 2.433.333 3.327 1.227.9.9 1.166 1.833 1.233 3.327.048.977.058 1.26.058 3.69s-.01 2.714-.058 3.69c-.067 1.488-.333 2.433-1.233 3.327-.9.9-1.833 1.166-3.327 1.233-.977.048-1.26.058-3.69.058s-2.714-.01-3.69-.058c-1.488-.067-2.433-.333-3.327-1.233-.9-.9-1.166-1.833-1.233-3.327-.048-.977-.058-1.26-.058-3.69s.01-2.714.058-3.69c.067-1.488.333-2.433 1.233-3.327.9-.9 1.833-1.166 3.327-1.233.977-.048 1.26-.058 3.69-.058zm0-2.032C9.885-.032 9.587 0 8.618.058 5.94.137 4.137.473 2.49 2.074c-1.603 1.6-1.95 3.44-2.017 6.13-.058.98-.058 1.27-.058 3.79s0 2.81.058 3.79c.067 2.68 1.054 4.5 2.61 6.13 1.555 1.6 3.44 1.95 6.13 2.017.98.058 1.27.058 3.79.058s2.81-.058 3.79-.058c2.68-.067 4.5-1.054 6.13-2.61 1.6-1.555 1.95-3.44 2.017-6.13.058-.98.058-1.27.058-3.79s-.058-2.81-.058-3.79C22.013 4.51 21.026 2.66 19.47 1.054c-1.555-1.6-3.44-1.95-6.13-2.017-.98-.058-1.27-.058-3.79-.058zm0 5.881a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <!-- Enlace a X (Twitter) --><a href="#" target="_blank" rel="noopener noreferrer" class="text-blue-200 hover:text-white dark:text-gray-500 dark:hover:text-indigo-400 transition-colors">
+                    <!-- Enlace a X (Twitter) -->
+                    <a id="twitterLink" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-200 hover:text-white dark:text-gray-500 dark:hover:text-indigo-400 transition-colors">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                         </svg>
@@ -152,8 +172,9 @@
                     </svg>
                     Instalar App
                 </button>
-                <button id="shareQrBtn" class="w-full bg-white dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-300 text-blue-600 font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 col-span-2">
-                    Compartir QR
+                <!-- CAMBIO: Texto del botón actualizado a "Tarjeta" -->
+                <button id="shareBtn" class="w-full bg-white dark:bg-gray-200 hover:bg-gray-300 dark:hover:bg-gray-300 text-blue-600 font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105 col-span-2">
+                    Tarjeta
                 </button>
             </div>
             
@@ -167,44 +188,36 @@
     </div>
 
 
-    <!-- Modals de Información -->
-    <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
-            <h3 class="text-xl font-bold mb-4">Escanea para compartir</h3>
-            <div id="qrcode" class="flex justify-center mb-4"></div>
-            <p class="text-gray-600 text-sm">Apunta la cámara de tu teléfono a este código para abrir mi tarjeta.</p>
-            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <!-- ===== MODALES ===== -->
+
+    <!-- Modal para Acceso Restringido (para el botón "Tarjeta") -->
+    <div id="infoModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Aviso</h3>
+            <p id="infoModalText" class="text-gray-600 text-sm">Llamar al Departamento de Informática para que le habiliten esta opción.</p>
+            <button class="close-modal-btn mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                Cerrar
             </button>
         </div>
     </div>
-    
-    <div id="androidQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
-            <h3 class="text-xl font-bold mb-4">QR Conductores</h3>
-            <div id="androidQrcode" class="flex justify-center mb-4"></div>
-            <p class="text-gray-600 text-sm">Escanea para descargar la app de conductor.</p>
+
+    <!-- ===== INICIO: MODALES RESTAURADOS ===== -->
+
+    <!-- Modal para información genérica (Teléfono, Email, etc.) -->
+    <div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
+            <h3 class="text-xl font-bold mb-2 text-gray-800">Teléfono</h3>
+            <p id="phoneModalText" class="text-gray-700 text-lg"></p>
             <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
 
-    <div id="clientesQrModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
-            <h3 class="text-xl font-bold mb-4">QR Clientes</h3>
-            <div id="clientesQrcode" class="flex justify-center mb-4"></div>
-            <p class="text-gray-600 text-sm">Escanea para descargar la app de cliente.</p>
-            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
-    
-    <div id="instagramModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
-            <h3 class="text-xl font-bold mb-2 text-gray-800">Instagram</h3>
-            <p class="text-gray-700 text-lg">jsdriverrd</p>
+    <div id="webModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
+            <h3 class="text-xl font-bold mb-2 text-gray-800">Sitio Web</h3>
+            <p id="webModalText" class="text-gray-700 text-lg"></p>
             <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -212,38 +225,28 @@
     </div>
 
     <div id="emailModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
             <h3 class="text-xl font-bold mb-2 text-gray-800">Correo Electrónico</h3>
-            <p class="text-gray-700 text-lg">jsdriver@jsdriverrd.com</p>
+            <p id="emailModalText" class="text-gray-700 text-lg"></p>
             <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
     
-    <div id="webModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
-            <h3 class="text-xl font-bold mb-2 text-gray-800">Web</h3>
-            <p class="text-gray-700 text-lg">www.jsdriver.net</p>
+    <div id="instagramModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
+            <h3 class="text-xl font-bold mb-2 text-gray-800">Instagram</h3>
+            <p id="instagramModalText" class="text-gray-700 text-lg"></p>
             <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
     </div>
-    
-    <div id="phoneModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full">
-            <h3 class="text-xl font-bold mb-2 text-gray-800">Teléfono</h3>
-            <p class="text-gray-700 text-lg">564344</p>
-            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-    </div>
-    
+
     <!-- Modal de Instrucciones de Instalación -->
     <div id="installInstructionsModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
-        <div class="bg-white rounded-2xl p-6 text-left relative max-w-xs w-full">
+        <div class="bg-white rounded-2xl p-6 text-left relative max-w-xs w-full modal">
             <h3 class="text-xl font-bold mb-4 text-center">Añadir a Inicio</h3>
             
             <!-- Instrucciones para iOS/Safari -->
@@ -270,6 +273,33 @@
             </button>
         </div>
     </div>
+    
+    <!-- ===== FIN: MODALES RESTAURADOS ===== -->
+
+
+    <!-- Modal para QR Conductores -->
+    <div id="qrModalConductores" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">QR Conductores</h3>
+            <div id="qrConductoresContainer" class="flex justify-center mb-4"></div>
+            <p class="text-gray-600 text-sm">Escanea este código para acceder a la web de conductores.</p>
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal para QR Clientes -->
+    <div id="qrModalClientes" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-2xl p-6 text-center relative max-w-xs w-full modal">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">QR Clientes</h3>
+            <div id="qrClientesContainer" class="flex justify-center mb-4"></div>
+            <p class="text-gray-600 text-sm">Escanea este código para acceder a la web de clientes.</p>
+            <button class="close-modal-btn absolute top-2 right-2 text-gray-500 hover:text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
 
 
     <script>
@@ -286,11 +316,13 @@
             "description": "Una tarjeta de presentación virtual interactiva.",
             "icons": [
                 {
-                    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAVoSURBVHic7d1NruNUAIDhYQJqonhEwUeI6AM0+v/f2N0JpTQUsu3FndmZ3dkzFzRarFar1WoFhBBCCCGEEEKIx4B7wFXgGfC+/wR+AJ+Bl8AzYFzYVQq4NN3B3Ad+BL+l/yjwBngCvAQ+AD/p/i3wb7/JNeA+cBN4xvrf3wJ/AZ/YfqgC3wOvgf3G9wS42/474Fmw3/iugPeA74B3gYfAHeD74L3GHwOuwP3Gbwe8C7wBPAHesP7t8G5jfzvgGfCv8R0B7gHvG98d4AngV+M7A/wJ/G58B4A7wG/GdwE4ADwZvzPAc+B34zMAHAV+Mz4DwCvGb1oX/AB8ZnwA4G+i9wQ4B3wF/GZwBbhm4wDwrfHdwb4G3hvYgA8W9i4A/xrYgCcG1gAHzb2AIDwFfH9wA49hDAZeA48R0C/AbAeeAj43MAvAfAfeDbgwvAteA+cDQDfk/AJeA4cFzYA/A8AP8NnAGuA/eArwAeA7/Y/DngC/AKeA/4L3AAvGv89wB3gb+B34A3gD3C34KPAVfh/0LHgA/AD+C/w2uA7cCfwE/A28BvwwsA/A4cAC8DfwM3AbcBvwAXgbcDvwwXgd+Ad4AvgE+BP4A3gE/B24QfwZvA3cBT4AvgT+AG4BnwCPAEcA94GngO+C3wNfBf4LvgM+CbwbWAU+A34DfgtcAP4Dfgo8CrwS+Az4LfAB+CXwCvAS+CnwMvA54DPgV8AXgA+F3wB+CzwXOC5wDPAZ4DPgs8A3wPvBW8CbwTvBO8BLwEvA18CfgW8CjwL/AJ4BvgF+A34DvgE+A74LPAI+CjwUOCxwCPAI8CjwCPAI8CDwEPAg8AzwPOAp4DngL8BzwIfAp8C7wO/D58BnwO/Aj4CPgO+Az4CPgW8CFwEXgQuAi8CtwDvBXcBt4G7wB3gdeAt4HXgd4G/Al4BngJeAl4CngKeBq4FrgYuAy4DzgDOAKcAG4AfgAuAm4AfgFuAp4GngGeB7wIPAQ8CDwCPAw4DDgIOAg4BjgIOAscBigDHAcsAawClgFcBrAN4ALgIuBC4CfgTeAl4CngcuA84DrwDvAXeBO4BbgAeAB4AFgAWAAYAGwCrAKWAKwDOAawA3AYoA5wGnAQcAxwEHAYcBhwEPAg8AzwPOAp4BngI8B3wKfA+8DnwM+B3wDfAZ8BnwIfAl4ALwIXAbeAt4B7gLuAm4BngbeAzwN/Al4DXgOuAq4BjgDOA24AXgCeAA4AbgAWAdsAywBNgMsAWwALAEsAfwEcBZwFfAcsAawHPAWsAJYD1gNsAawGrAKsAFgCbAKsAq4AXgKuAu4GngOuA14C3gXeA94CfgR+BH4EfgB+AP4BfhZ8AXgB+AP4EvgC+Br4FPgO+A74Hvg+8BvAN8GfgB+DfwM/Bj4GfgB+DfwG/AN8A3wFPAy8Fnge8D7wTvAe8FbwCvAK8A3wKvA14DvgdeBT4APgE+B7wAvAF8CngE+Bzwf+LzgG8AvgE+B5wDPgG8CnwU+C3wHfA/8AfwG/BD4A/gI+CDwUfA3cBX4LfgD8FfwA/AH8DfgG+A74Gvge8CbwG/AJ8CjwAfAx8CHwAeB7wCPAM8CPwMPAd8CzwE/Ap8CbwPvAs8CzwOvAw8B54DHgF+C4wI/AYcC3ge8C7wAvAGeAP4EHgAeBV4D/gc+ArwJfgLcA/wOvAM+B94Gvge8CrwDfAC8CjwAfAJ8G/ge+BnwO/AH4Dfge+CjwKfA58CXwOfAd8CngM+APwEfAJ8Cfgc+ALwEvAhcCvws+Bb4Cfgo8CvwC+AP4IfBf4DPgJ+CbwLd/y8EIIYQQQgghhBBf8/Yv9+e9bSgA4kIAAAAASUVORK5CYII=",
+                    // Icono 192x192 (usando el logo que subiste)
+                    "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAVoSURBVHic7d1NruNVAIDhYQJqonhEwUeI6AM0+v/f2N0JpTQUsu3FndmZ3dkzFzRarFar1WoFhBBCCCGEEEKIx4B7wFXgGfC+/wR+AJ+Bl8AzYFzYVQq4NN3B3Ad+BL+l/yjwBngCvAQ+AD/p/i3wb7/JNeA+cBN4xvrf3wJ/AZ/YfqgC3wOvgf3G9wS42/474Fmw3/iugPeA74B3gYfAHeD74L3GHwOuwP3Gbwe8C7wBPAHesP7t8G5jfzvgGfCv8R0B7gHvG98d4AngV+M7A/wJ/G58B4A7wG/GdwE4ADwZvzPAc+B34zMAHAV+Mz4DwCvGb1oX/AB8ZnwA4G+i9wQ4B3wF/GZwBbhm4wDwrfHdwb4G3hvYgA8W9i4A/xrYgCcG1gAHzb2AIDwFfH9wA49hDAZeA48R0C/AbAeeAj43MAvAfAfeDbgwvAteA+cDQDfk/AJeA4cFzYA/A8AP8NnAGuA/eArwAeA7/Y/DngC/AKeA/4L3AAvGv89wB3gb+B34A3gD3C34KPAVfh/0LHgA/AD+C/w2uA7cCfwE/A28BvwwsA/A4cAC8DfwM3AbcBvwAXgbcDvwwXgd+Ad4AvgE+BP4A3gE/B24QfwZvA3cBT4AvgT+AG4BnwCPAEcA94GngO+C3wNfBf4LvgM+CbwbWAU+A34DfgtcAP4Dfgo8CrwS+Az4LfAB+CXwCvAS+CnwMvA54DPgV8AXgA+F3wB+CzwXOC5wDPAZ4DPgs8A3wPvBW8CbwTvBO8BLwEvA18CfgW8CjwL/AJ4BvgF+A34DvgE+A74LPAI+CjwUOCxwCPAI8CjwCPAI8CDwEPAg8AzwPOAp4DngL8BzwIfAp8C7wO/D58BnwO/Aj4CPgO+Az4CPgW8CFwEXgQuAi8CtwDvBXcBt4G7wB3gdeAt4HXgd4G/Al4BngJeAl4CngKeBq4FrgYuAy4DzgDOAKcAG4AfgAuAm4AfgFuAp4GngGeB7wIPAQ8CDwCPAw4DDgIOAg4BjgIOAscBigDHAcsAawClgFcBrAN4ALgIuBC4CfgTeAl4CngcuA84DrwDvAXeBO4BbgAeAB4AFgAWAAYAGwCrAKWAKwDOAawA3AYoA5wGnAQcAxwEHAYcBhwEPAg8AzwPOAp4BngI8B3wKfA+8DnwM+B3wDfAZ8BnwIfAl4ALwIXAbeAt4B7gLuAm4BngbeAzwN/Al4DXgOuAq4BjgDOA24AXgCeAA4AbgAWAdsAywBNgMsAWwALAEsAfwEcBZwFfAcsAawHPAWsAJYD1gNsAawGrAKsAFgCbAKsAq4AXgKuAu4GngOuA14C3gXeA94CfgR+BH4EfgB+AP4BfhZ8AXgB+AP4EvgC+Br4FPgO+A74Hvg+8BvAN8GfgB+DfwM/Bj4GfgB+DfwG/AN8A3wFPAy8Fnge8D7wTvAe8FbwCvAK8A3wKvA14DvgdeBT4APgE+B7wAvAF8CngE+Bzwf+LzgG8AvgE+B5wDPgG8CnwU+C3wHfA/8AfwG/BD4A/gI+CDwUfA3cBX4LfgD8FfwA/AH8DfgG+A74Gvge8CbwG/AJ8CjwAfAx8CHwAeB7wCPAM8CPwMPAd8CzwE/Ap8CbwPvAs8CzwOvAw8B54DHgF+C4wI/AYcC3ge8C7wAvAGeAP4EHgAeBV4D/gc+ArwJfgLcA/wOvAM+B94Gvge8CrwDfAC8CjwAfAJ8G/ge+BnwO/AH4Dfge+CjwKfA58CXwOfAd8CngM+APwEfAJ8Cfgc+ALwEvAhcCvws+Bb4Cfgo8CvwC+AP4IfBf4DPgJ+CbwLd/y8EIIYQQQgghhBBf8/Yv9+e9bSgA4kIAAAAASUVORK5CYII=",
                     "sizes": "192x192",
                     "type": "image/png"
                 },
                 {
+                    // Icono 512x512
                     "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAn3SURBVHic7d1NruNVAIDhYQJqonhEwUeI6AM0+v/f2N0JpTQUsu3FndmZ3dkzFzRarFar1WoFhBBCCCGEEEKIx4B7wFXgGfC+/wR+AJ+Bl8AzYFzYVQq4NN3B3Ad+BL+l/yjwBngCvAQ+AD/p/i3wb7/JNeA+cBN4xvrf3wJ/AZ/YfqgC3wOvgf3G9wS42/474Fmw3/iugPeA74B3gYfAHeD74L3GHwOuwP3Gbwe8C7wBPAHesP7t8G5jfzvgGfCv8R0B7gHvG98d4AngV+M7A/wJ/G58B4A7wG/GdwE4ADwZvzPAc+B34zMAHAV+Mz4DwCvGb1oX/AB8ZnwA4G+i9wQ4B3wF/GZwBbhm4wDwrfHdwb4G3hvYgA8W9i4A/xrYgCcG1gAHzb2AIDwFfH9wA49hDAZeA48R0C/AbAeeAj43MAvAfAfeDbgwvAteA+cDQDfk/AJeA4cFzYA/A8AP8NnAGuA/eArwAeA7/Y/DngC/AKeA/4L3AAvGv89wB3gb+B34A3gD3C34KPAVfh/0LHgA/AD+C/w2uA7cCfwE/A28BvwwsA/A4cAC8DfwM3AbcBvwAXgbcDvwwXgd+Ad4AvgE+BP4A3gE/B24QfwZvA3cBT4AvgT+AG4BnwCPAEcA94GngO+C3wNfBf4LvgM+CbwbWAU+A34DfgtcAP4Dfgo8CrwS+Az4LfAB+CXwCvAS+CnwMvA54DPgV8AXgA+F3wB+CzwXOC5wDPAZ4DPgs8A3wPvBW8CbwTvBO8BLwEvA18CfgW8CjwL/AJ4BvgF+A34DvgE+A74LPAI+CjwUOCxwCPAI8CjwCPAI8CDwEPAg8AzwPOAp4DngL8BzwIfAp8C7wO/D58BnwO/Aj4CPgO+Az4CPgW8CFwEXgQuAi8CtwDvBXcBt4G7wB3gdeAt4HXgd4G/Al4BngJeAl4CngKeBq4FrgYuAy4DzgDOAKcAG4AfgAuAm4AfgFuAp4GngGeB7wIPAQ8CDwCPAw4DDgIOAg4BjgIOAscBigDHAcsAawClgFcBrAN4ALgIuBC4CfgTeAl4CngcuA84DrwDvAXeBO4BbgAeAB4AFgAWAAYAGwCrAKWAKwDOAawA3AYoA5wGnAQcAxwEHAYcBhwEPAg8AzwPOAp4BngI8B3wKfA+8DnwM+B3wDfAZ8BnwIfAl4ALwIXAbeAt4B7gLuAm4BngbeAzwN/Al4DXgOuAq4BjgDOA24AXgCeAA4AbgAWAdsAywBNgMsAWwALAEsAfwEcBZwFfAcsAawHPAWsAJYD1gNsAawGrAKsAFgCbAKsAq4AXgKuAu4GngOuA14C3gXeA94CfgR+BH4EfgB+AP4BfhZ8AXgB+AP4EvgC+Br4FPgO+A74Hvg+8BvAN8GfgB+DfwM/Bj4GfgB+DfwG/AN8A3wFPAy8Fnge8D7wTvAe8FbwCvAK8A3wKvA14DvgdeBT4APgE+B7wAvAF8CngE+Bzwf+LzgG8AvgE+B5wDPgG8CnwU+C3wHfA/8AfwG/BD4A/gI+CDwUfA3cBX4LfgD8FfwA/AH8DfgG+A74Gvge8CbwG/AJ8CjwAfAx8CHwAeB7wCPAM8CPwMPAd8CzwE/Ap8CbwPvAs8CzwOvAw8B54DHgF+C4wI/AYcC3ge8C7wAvAGeAP4EHgAeBV4D/gc+ArwJfgLcA/wOvAM+B94Gvge8CrwDfAC8CjwAfAJ8G/ge+BnwO/AH4Dfge+CjwKfA58CXwOfAd8CngM+APwEfAJ8Cfgc+ALwEvAhcCvws+Bb4Cfgo8CvwC+AP4IfBf4DPgJ+CbwLd/y8EIIYQQQgghhBBf8/Yv9+e9bSgA4kIAAAAASUVORK5CYII=",
                     "sizes": "512x512",
                     "type": "image/png"
@@ -322,13 +354,14 @@
         // 3. Lógica para el botón de instalación
         let deferredPrompt;
         const installBtn = document.getElementById('installBtn');
-        const shareQrBtn = document.getElementById('shareQrBtn');
+        const shareBtn = document.getElementById('shareBtn'); // ID del botón "Tarjeta"
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             installBtn.classList.remove('hidden');
-            shareQrBtn.classList.remove('col-span-2');
+            // Ajusta el layout si el botón de instalar aparece
+            shareBtn.classList.remove('col-span-2'); 
         });
 
         installBtn.addEventListener('click', async () => {
@@ -338,9 +371,15 @@
                 console.log(`Respuesta del usuario: ${outcome}`);
                 deferredPrompt = null;
                 installBtn.classList.add('hidden');
-                shareQrBtn.classList.add('col-span-2');
+                shareBtn.classList.add('col-span-2'); // El botón "Tarjeta" vuelve a ocupar todo el ancho
             }
         });
+
+        // Asegurarse de que el botón "Tarjeta" ocupe todo el ancho si PWA no es soportado
+        if (!deferredPrompt && installBtn.classList.contains('hidden')) {
+             shareBtn.classList.add('col-span-2');
+        }
+
 
         // --- LÓGICA DEL LOGIN ---
         const loginScreen = document.getElementById('loginScreen');
@@ -357,46 +396,80 @@
                 name: 'Antonio Rodríguez',
                 title: 'Director de Informática',
                 blinkingTitle: true,
-                bgColor: 'bg-white'
+                bgColor: 'bg-white',
+                phone: '123-456-7890',
+                web: 'https://oregano24k.github.io/tarjeta-personal-/',
+                email: 'a.rodriguez@jsdriverrd.com',
+                instagram: 'jsdriverrd'
             },
             '1111': {
                 name: 'Julio Mendez',
                 title: 'CEO',
                 blinkingTitle: false,
-                bgColor: 'bg-gradient-to-b from-red-900 to-red-500'
+                bgColor: 'bg-gradient-to-b from-red-900 to-red-500',
+                phone: '564344',
+                web: 'www.jsdriver.net',
+                email: 'jsdriver@jsdriverrd.com',
+                instagram: 'jsdriverrd'
             },
             '2222': {
                 name: 'Frank Alvarado',
                 title: 'Director General',
                 blinkingTitle: false,
-                bgColor: 'bg-gradient-to-b from-red-900 to-red-500'
+                bgColor: 'bg-gradient-to-b from-red-900 to-red-500',
+                phone: '564344',
+                web: 'www.jsdriver.net',
+                email: 'jsdriver@jsdriverrd.com',
+                instagram: 'jsdriverrd'
             },
             '3333': {
                 name: 'Altagracia Mendez',
                 title: 'Gerente General',
                 blinkingTitle: false,
-                bgColor: 'bg-gradient-to-b from-red-900 to-red-500'
+                bgColor: 'bg-gradient-to-b from-red-900 to-red-500',
+                phone: '564344',
+                web: 'www.jsdriver.net',
+                email: 'jsdriver@jsdriverrd.com',
+                instagram: 'jsdriverrd'
             }
         };
+        
+        // Variable para guardar el perfil actual
+        let currentUserProfile = null;
 
         const checkLogin = () => {
             const clave = claveInput.value;
-            const profile = userProfiles[clave];
+            currentUserProfile = userProfiles[clave]; // Guardar el perfil actual
 
-            if (profile) {
-                document.getElementById('userName').textContent = profile.name;
+            if (currentUserProfile) {
+                // Cargar datos del perfil
+                document.getElementById('userName').textContent = currentUserProfile.name;
                 const userTitleEl = document.getElementById('userTitle');
-                userTitleEl.textContent = profile.title;
-                userTitleEl.classList.toggle('animate-blink', profile.blinkingTitle);
+                userTitleEl.textContent = currentUserProfile.title;
+                userTitleEl.classList.toggle('animate-blink', currentUserProfile.blinkingTitle);
+                
+                // Actualizar texto de los modales
+                document.getElementById('phoneModalText').textContent = currentUserProfile.phone;
+                document.getElementById('webModalText').textContent = currentUserProfile.web;
+                document.getElementById('emailModalText').textContent = currentUserProfile.email;
+                document.getElementById('instagramModalText').textContent = currentUserProfile.instagram;
+                
+                // Actualizar enlaces de redes sociales (si los tuviera)
+                // document.getElementById('facebookLink').href = currentUserProfile.facebook || '#';
+                // document.getElementById('twitterLink').href = currentUserProfile.twitter || '#';
 
+                // Cambiar fondo si está definido
                 bodyEl.className = 'bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4';
-                if (profile.bgColor) {
-                    bodyEl.classList.add(...profile.bgColor.split(' '));
+                if (currentUserProfile.bgColor) {
+                    bodyEl.classList.add(...currentUserProfile.bgColor.split(' '));
                 }
                 
+                // Mostrar contenido principal
                 loginScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
             } else {
+                // Lógica de error
+                currentUserProfile = null;
                 errorMessage.classList.remove('hidden');
                 claveInput.value = '';
                 claveInput.classList.add('animate-shake', 'border', 'border-red-500');
@@ -408,34 +481,47 @@
         };
 
         const doLogout = () => {
+            currentUserProfile = null; // Limpiar perfil
             mainContent.classList.add('hidden');
             loginScreen.classList.remove('hidden');
             claveInput.value = '';
             bodyEl.className = 'bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4';
-            tiendasSection.classList.add('hidden');
+            tiendasSection.classList.add('hidden'); // Ocultar sección de tiendas al salir
         };
 
         loginBtn.addEventListener('click', checkLogin);
         logoutBtn.addEventListener('click', doLogout);
         claveInput.addEventListener('keyup', (event) => { if (event.key === 'Enter') checkLogin(); });
 
+        // --- Lógica de Botones y Modales ---
+        
         const tiendasBtn = document.getElementById('tiendasBtn');
         const tiendasSection = document.getElementById('tiendasSection');
         tiendasBtn.addEventListener('click', () => tiendasSection.classList.toggle('hidden'));
 
-        // --- Lógica de Modales ---
+        // Función genérica para abrir/cerrar modales
         function setupModal(triggerId, modalId) {
             const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
             const trigger = document.getElementById(triggerId);
+            const bodyEl = document.body;
             
             const openModal = () => {
+                bodyEl.classList.add('modal-open');
                 modal.classList.remove('hidden');
-                requestAnimationFrame(() => modal.style.opacity = 1);
+                void modal.offsetWidth; // Forzar reflow para animación
+                modal.classList.add('opacity-100');
+                modal.querySelector('.modal').classList.add('opacity-100', 'scale-100');
             };
 
             const closeModal = () => {
-                modal.style.opacity = 0;
-                setTimeout(() => modal.classList.add('hidden'), 300);
+                bodyEl.classList.remove('modal-open');
+                modal.classList.remove('opacity-100');
+                modal.querySelector('.modal').classList.remove('opacity-100', 'scale-100');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300); // Duración de la transición
             };
 
             if (trigger) trigger.addEventListener('click', openModal);
@@ -447,39 +533,80 @@
             });
         }
         
-        // Lógica QR y Modales de Información
-        const qrCodeContainer = document.getElementById('qrcode');
-        let qrCodeGenerated = false;
-        document.getElementById('shareQrBtn').addEventListener('click', () => {
-             if (!qrCodeGenerated) {
-                new QRCode(qrCodeContainer, { text: window.location.href, width: 192, height: 192 });
-                qrCodeGenerated = true;
+        // Lógica del botón "Tarjeta" (antes shareBtn)
+        document.getElementById('shareBtn').addEventListener('click', () => {
+            const clave = claveInput.value; // Obtener la clave actual
+            
+            if (clave === '1234') {
+                // Para Antonio Rodríguez, abrir la URL personal en una nueva pestaña
+                window.open('https://oregano24k.github.io/tarjeta-personal-/', '_blank');
+            } else {
+                // Para otros usuarios, mostrar el modal de "llamar a informática"
+                const infoModal = document.getElementById('infoModal');
+                if (infoModal) {
+                    bodyEl.classList.add('modal-open');
+                    infoModal.classList.remove('hidden');
+                    void infoModal.offsetWidth; // Reflow
+                    infoModal.classList.add('opacity-100');
+                    infoModal.querySelector('.modal').classList.add('opacity-100', 'scale-100');
+                }
             }
-            setupModal(null, 'qrModal'); // Abre el modal programáticamente
-            document.getElementById('qrModal').classList.remove('hidden');
-            requestAnimationFrame(() => document.getElementById('qrModal').style.opacity = 1);
         });
-
-        let androidQrCodeGenerated = false;
+        
+        // Lógica del botón "Conductores" para generar QR
         document.getElementById('androidConductoresBtn').addEventListener('click', () => {
-            if(!androidQrCodeGenerated) {
-                new QRCode(document.getElementById('androidQrcode'), { text: 'https://oregano24k.github.io/qr-conductores/', width: 192, height: 192 });
-                androidQrCodeGenerated = true;
-            }
-            setupModal(null, 'androidQrModal');
-            document.getElementById('androidQrModal').classList.remove('hidden');
-            requestAnimationFrame(() => document.getElementById('androidQrModal').style.opacity = 1);
+            const qrModalConductores = document.getElementById('qrModalConductores');
+            const qrConductoresContainer = document.getElementById('qrConductoresContainer');
+            const url = "https://oregano24k.github.io/qr-conductores/";
+            
+            // Limpiar QR anterior
+            qrConductoresContainer.innerHTML = ''; 
+            
+            // Generar nuevo QR
+            new QRCode(qrConductoresContainer, {
+                text: url,
+                width: 200, // Tamaño del QR
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            
+            // Abrir el modal (usando la lógica de la app)
+            const bodyEl = document.body;
+            bodyEl.classList.add('modal-open');
+            qrModalConductores.classList.remove('hidden');
+            void qrModalConductores.offsetWidth; // Reflow
+            qrModalConductores.classList.add('opacity-100');
+            qrModalConductores.querySelector('.modal').classList.add('opacity-100', 'scale-100');
         });
-
-        let clientesQrCodeGenerated = false;
+        
+        // Lógica del botón "Clientes" para generar QR
         document.getElementById('clientesBtn').addEventListener('click', () => {
-            if(!clientesQrCodeGenerated) {
-                new QRCode(document.getElementById('clientesQrcode'), { text: 'https://oregano24k.github.io/qr-cliente-/', width: 192, height: 192 });
-                clientesQrCodeGenerated = true;
-            }
-            setupModal(null, 'clientesQrModal');
-            document.getElementById('clientesQrModal').classList.remove('hidden');
-            requestAnimationFrame(() => document.getElementById('clientesQrModal').style.opacity = 1);
+            const qrModalClientes = document.getElementById('qrModalClientes');
+            const qrClientesContainer = document.getElementById('qrClientesContainer');
+            const url = "https://oregano24k.github.io/qr-cliente-/";
+            
+            // Limpiar QR anterior
+            qrClientesContainer.innerHTML = ''; 
+            
+            // Generar nuevo QR
+            new QRCode(qrClientesContainer, {
+                text: url,
+                width: 200, // Tamaño del QR
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            
+            // Abrir el modal (usando la lógica de la app)
+            const bodyEl = document.body;
+            bodyEl.classList.add('modal-open');
+            qrModalClientes.classList.remove('hidden');
+            void qrModalClientes.offsetWidth; // Reflow
+            qrModalClientes.classList.add('opacity-100');
+            qrModalClientes.querySelector('.modal').classList.add('opacity-100', 'scale-100');
         });
         
         // Inicializar todos los modales
@@ -488,6 +615,9 @@
         setupModal('emailBtn', 'emailModal');
         setupModal('instagramBtn', 'instagramModal');
         setupModal('infoInstallBtn', 'installInstructionsModal');
+        setupModal(null, 'infoModal'); // Para que funcione el botón de cerrar del infoModal
+        setupModal(null, 'qrModalConductores'); // Para que funcione el botón de cerrar del QR Conductores
+        setupModal(null, 'qrModalClientes'); // Para que funcione el botón de cerrar del QR Clientes
         
         // Lógica para mostrar instrucciones de instalación correctas
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -495,15 +625,18 @@
         const samsungInstructions = document.getElementById('samsung-instructions');
         const defaultInstructions = document.getElementById('default-instructions');
 
+        // ----- INICIO DE LA CORRECCIÓN -----
         if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            iosInstructions.classList.remove('hidden');
+            if (iosInstructions) iosInstructions.classList.remove('hidden');
         } else if (/SamsungBrowser/.test(userAgent)) {
-            samsungInstructions.classList.remove('hidden');
+            if (samsungInstructions) samsungInstructions.classList.remove('hidden');
         } else {
-            defaultInstructions.classList.remove('hidden');
+            if (defaultInstructions) defaultInstructions.classList.remove('hidden');
         }
+        // ----- FIN DE LA CORRECCIÓN -----
     </script>
 
 </body>
 </html>
+
 
